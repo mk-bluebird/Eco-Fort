@@ -1,0 +1,111 @@
+graph TD
+    %% Styles
+    classDef spine fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
+    classDef research fill:#f1f8e9,stroke:#2e7d32,stroke-width:2px;
+    classDef engine fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef material fill:#fce4ec,stroke:#c2185b,stroke-width:2px;
+    classDef gov fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px;
+    classDef app fill:#fffde7,stroke:#f57f17,stroke-width:2px;
+    classDef crawlable fill:#ffffff,stroke:#d32f2f,stroke-width:3px,stroke-dasharray: 5 5;
+    classDef hq fill:#ffebee,stroke:#b71c1c,stroke-width:4px;
+
+    %% Crawlable Graph Concept (The LLM Navigation Pattern)
+    subgraph CRAWLABLE["🔍 Crawlable Safety Graph (LLM Navigation Pattern)"]
+        ArtifactA["📦 Artifact A<br/>(e.g., PhoenixMarShard.aln)"]:::crawlable
+        ReceiptB["📜 Receipt B<br/>(ComplianceReceipt.aln)"]:::crawlable
+        InvariantC["⚖️ Invariant C<br/>(InvariantRegistry.aln)"]:::crawlable
+        
+        ArtifactA -- "links to" --> ReceiptB
+        ReceiptB -- "references" --> InvariantC
+    end
+
+    %% SPINE Repositories
+    subgraph SPINE["🏛️ mk-bluebird / SPINE - Grammar & Schemas"]
+        EcoNet["EcoNet<br/>(Core Grammar, KER Math)"]:::spine
+        ALN["aln-platform-ecosystem<br/>(ALN Specs, Invariants)"]:::spine
+        EcoFort["Eco-Fort<br/>(qpudatashards, Validation)"]:::spine
+        Cydroid["cydroid-toolkit<br/>(ALN Toolchain)"]:::spine
+    end
+
+    %% GOV Repositories
+    subgraph GOV["🛡️ mk-bluebird / GOV - Governance & Orchestration"]
+        VirtaSys["Virta-Sys<br/>(Governance HQ)"]:::hq
+        EcoInfra["eco_infra-governance"]:::gov
+        EcoOrchestrator["ecological-orchestrator"]:::gov
+        Paycomp["Paycomp"]:::gov
+        OcuTrust["Ocu-Trust"]:::gov
+        Globe["Globe"]:::gov
+        EcoNetCERG["EcoNet-CERG"]:::gov
+    end
+
+    %% RESEARCH Repositories
+    subgraph RESEARCH["🔬 mk-bluebird / RESEARCH - Evidence & Corridors"]
+        EcoRestoration["eco_restoration_shard"]:::research
+        SnowGlobe["SnowGlobe"]:::research
+    end
+
+    %% ENGINE Repositories
+    subgraph ENGINE["⚙️ mk-bluebird / ENGINE - Physical Controllers"]
+        CEIM["EcoNet-CEIM-PhoenixWater"]:::engine
+        EcoSys["Eco-Sys"]:::engine
+        PhoenixNodes["PhoenixMicroEcoNodesCEIM"]:::engine
+        FOG["Sewer-FOG-Monitoring-Network"]:::engine
+        AirGlobe["AirGlobeEcoKernel"]:::engine
+    end
+
+    %% MATERIAL Repositories
+    subgraph MATERIAL["🌿 mk-bluebird / MATERIAL - Substrates & Biology"]
+        BugsLife["BugsLife"]:::material
+        AntOneNet["Ant-One-Net"]:::material
+        BeeSafe["EcoNet-BeeSafeAI"]:::material
+    end
+
+    %% APP Repositories
+    subgraph APP["📱 mk-bluebird / APP - Clients & Dashboards"]
+        Cybocinder["EcoNetCybocinderPhoenix"]:::app
+        EcoBuild["Eco_Build"]:::app
+        Windminer["Windminer"]:::app
+    end
+
+    %% Dependencies & Governance Flow
+    %% SPINE provides the foundation
+    EcoNet --> ALN
+    EcoFort --> EcoNet
+    Cydroid --> ALN
+
+    %% GOV enforces SPINE and orchestrates ENGINE/RESEARCH
+    VirtaSys --> EcoNet
+    VirtaSys --> EcoFort
+    VirtaSys --> ALN
+    
+    EcoInfra --> VirtaSys
+    EcoOrchestrator --> VirtaSys
+    EcoOrchestrator --> CEIM
+    EcoOrchestrator --> FOG
+    
+    Paycomp --> EcoNetCERG
+    OcuTrust --> EcoNet
+
+    %% RESEARCH consumes SPINE
+    EcoRestoration --> EcoFort
+    SnowGlobe --> EcoFort
+
+    %% ENGINE consumes SPINE & RESEARCH
+    CEIM --> EcoNet
+    CEIM --> EcoFort
+    FOG --> EcoNet
+    AirGlobe --> EcoNet
+
+    %% MATERIAL consumes SPINE
+    BugsLife --> ALN
+    AntOneNet --> ALN
+
+    %% APP consumes GOV & ENGINE
+    Cybocinder --> EcoOrchestrator
+    EcoBuild --> EcoOrchestrator
+    Windminer --> EcoOrchestrator
+
+    %% Crawlable Graph Integration with Repos
+    InvariantC -. "governs schemas in" .-> ALN
+    ReceiptB -. "audits shards in" .-> EcoFort
+    ArtifactA -. "implements logic in" .-> EcoNet
